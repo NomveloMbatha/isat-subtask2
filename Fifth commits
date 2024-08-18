@@ -1,0 +1,86 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <stdexcept>
+
+// Function to convert Decimal to Binary
+std::string decimalToBinary(int decimal) {
+    if (decimal < 0) {
+        throw std::invalid_argument("Input must be a non-negative integer");
+    }
+    if (decimal == 0) {
+        return "0";
+    }
+    std::string binary;
+    while (decimal > 0) {
+        binary = std::to_string(decimal % 2) + binary;
+        decimal /= 2;
+    }
+    return binary;
+}
+
+// Function to convert Binary to Decimal
+int binaryToDecimal(const std::string& binaryStr) {
+    int decimal = 0;
+    for (char bit : binaryStr) {
+        if (bit != '0' && bit != '1') {
+            throw std::invalid_argument("Input must be a string of binary digits");
+        }
+        decimal = decimal * 2 + (bit - '0');
+    }
+    return decimal;
+}
+
+// Function to convert Decimal to Hexadecimal
+std::string decimalToHexadecimal(int decimal) {
+    if (decimal < 0) {
+        throw std::invalid_argument("Input must be a non-negative integer");
+    }
+    std::stringstream ss;
+    ss << std::hex << decimal;
+    std::string hexStr = ss.str();
+    for (char& c : hexStr) {
+        c = std::toupper(c);
+    }
+    return hexStr;
+}
+
+// Function to convert Hexadecimal to Decimal
+int hexadecimalToDecimal(const std::string& hexStr) {
+    int decimal;
+    std::stringstream ss(hexStr);
+    ss >> std::hex >> decimal;
+    if (ss.fail()) {
+        throw std::invalid_argument("Input must be a valid hexadecimal string");
+    }
+    return decimal;
+}
+
+// Example Usage
+int main() {
+    try {
+        // Testing Decimal to Binary
+        int decimalValue = 10;
+        std::string binary = decimalToBinary(decimalValue);
+        std::cout << "Decimal " << decimalValue << " to Binary: " << binary << std::endl;
+
+        // Testing Binary to Decimal
+        std::string binaryStr = "1010";
+        int decimal = binaryToDecimal(binaryStr);
+        std::cout << "Binary " << binaryStr << " to Decimal: " << decimal << std::endl;
+
+        // Testing Decimal to Hexadecimal
+        decimalValue = 255;
+        std::string hex = decimalToHexadecimal(decimalValue);
+        std::cout << "Decimal " << decimalValue << " to Hexadecimal: " << hex << std::endl;
+
+        // Testing Hexadecimal to Decimal
+        std::string hexStr = "FF";
+        decimal = hexadecimalToDecimal(hexStr);
+        std::cout << "Hexadecimal " << hexStr << " to Decimal: " << decimal << std::endl;
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+    return 0;
+}
