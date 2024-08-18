@@ -1,0 +1,17 @@
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <stdexcept>
+
+std::string decimalToHexadecimal(int decimal) {
+    if (decimal < 0) {
+        throw std::invalid_argument("Input must be a non-negative integer");
+    }
+    std::stringstream ss;
+    ss << std::hex << decimal;
+    std::string hexStr = ss.str();
+    for (char& c : hexStr) {
+        c = std::toupper(c);
+    }
+    return hexStr;
+}
