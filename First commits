@@ -1,0 +1,17 @@
+#include <string>
+#include <stdexcept>
+
+std::string decimalToBinary(int decimal) {
+    if (decimal < 0) {
+        throw std::invalid_argument("Input must be a non-negative integer");
+    }
+    std::string binary;
+    if (decimal == 0) {
+        return "0";
+    }
+    while (decimal > 0) {
+        binary = std::to_string(decimal % 2) + binary;
+        decimal /= 2;
+    }
+    return binary;
+}
